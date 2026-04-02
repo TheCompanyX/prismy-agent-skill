@@ -48,6 +48,26 @@ prismy generate --repo-name my-project
 prismy generate -b develop -r my-project
 ```
 
+## prismy glossary
+
+Fetch the project's approved terminology for a given language.
+
+```bash
+prismy glossary --language <language-code>
+```
+
+Returns a list of glossary terms that must be used exactly as listed when writing user-facing copy.
+
+## prismy ai-instructions
+
+Fetch the project's wording rules, tone of voice, and product context.
+
+```bash
+prismy ai-instructions
+```
+
+Returns product context (what the product does, who it is for) and wording rules (tone, style, phrasing).
+
 ## More Information
 
 - Documentation: https://docs.prismy.io/tech/cli

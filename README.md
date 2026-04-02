@@ -1,21 +1,35 @@
 # Prismy Agent Skill
 
-An agent skill for [Claude Code](https://docs.anthropic.com/en/docs/claude-code/skills), [Cursor](https://cursor.com/docs/context/skills), [GitHub Copilot](https://github.com/features/copilot), and similar AI coding assistants. Helps work with i18n strings in projects that use Prismy for AI-powered localization.
+Agent skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code/skills), [Cursor](https://cursor.com/docs/context/skills), [GitHub Copilot](https://github.com/features/copilot), and similar AI coding assistants. Helps work with i18n strings in projects that use Prismy for AI-powered localization.
 
-## Why This Skill Exists
+This repo contains 4 independent, composable skills. Install all of them or pick only the ones you need.
 
-1. **Prevent accidental AI translations** — Without this skill, AI assistants often translate strings directly into target languages, bypassing Prismy entirely. This skill ensures the AI only writes source-language strings and defers all translation to Prismy.
+## Skills
 
-2. **Contextual wording consistency** — Before writing any user-facing copy, the AI fetches your project's glossary and wording instructions from Prismy. Every string respects your approved terminology, tone of voice, and product context — not generic defaults.
-
-3. **Integrate into your commit and deployment flow** — At commit time, this skill prompts the user to either:
-   - Run `prismy generate` locally to generate translations immediately, or
-   - Push the branch and review/generate translations from the Prismy UI
+| Skill | Description |
+| ----- | ----------- |
+| **translate** | Manages the Prismy CLI workflow for generating translations after source locale files are modified. |
+| **respect-copywriting-guidelines** | Fetches glossary and wording instructions from Prismy before writing any user-facing copy. |
+| **detect-hardcoded** | Scans changed files for user-facing hardcoded strings that should be extracted to locale files. |
+| **enforcing-source-language-only** | Prevents the AI agent from directly editing target-language locale files. |
 
 ## Install
 
 ```bash
+# Install all skills
 npx skills add prismy-io/prismy-agent-skill
+
+# Install specific skills
+npx skills add prismy-io/prismy-agent-skill --skill translate
+npx skills add prismy-io/prismy-agent-skill --skill respect-copywriting-guidelines
+npx skills add prismy-io/prismy-agent-skill --skill detect-hardcoded
+npx skills add prismy-io/prismy-agent-skill --skill enforcing-source-language-only
+
+# Common combination: translation workflow + copywriting + source-only guard
+npx skills add prismy-io/prismy-agent-skill \
+  --skill translate \
+  --skill respect-copywriting-guidelines \
+  --skill enforcing-source-language-only
 ```
 
 ## Prerequisites
@@ -28,10 +42,6 @@ prismy auth <your-api-key>
 ```
 
 Get your API key from [Prismy Settings](https://app.prismy.io/settings).
-
-## How it works
-
-When you modify localization files, your AI assistant will automatically run `prismy generate` to create translations for all target languages. The CLI compares your branch against main to detect new or changed keys.
 
 ## More info
 
