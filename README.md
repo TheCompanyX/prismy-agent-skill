@@ -8,10 +8,10 @@ This repo contains 4 independent, composable skills. Install all of them or pick
 
 | Skill | Description |
 | ----- | ----------- |
-| **prismy-translate** | Manages the Prismy CLI workflow for generating translations after source locale files are modified. |
-| **prismy-respect-copywriting-guidelines** | Fetches glossary and wording instructions from Prismy before writing any user-facing copy. |
-| **prismy-detect-hardcoded** | Scans changed files for user-facing hardcoded strings that should be extracted to locale files. |
-| **prismy-enforcing-source-language-only** | Prevents the AI agent from directly editing target-language locale files. |
+| **i18n-translate** | Manages the Prismy CLI workflow for generating translations after source locale files are modified. |
+| **i18n-respect-copywriting-guidelines** | Fetches glossary and wording instructions from Prismy before writing any user-facing copy. |
+| **i18n-detect-hardcoded** | Scans changed files for user-facing hardcoded strings that should be extracted to locale files. |
+| **i18n-enforcing-source-language-only** | Prevents the AI agent from directly editing target-language locale files. |
 
 ## Install
 
@@ -20,16 +20,16 @@ This repo contains 4 independent, composable skills. Install all of them or pick
 npx skills add prismy-io/prismy-agent-skill
 
 # Install specific skills
-npx skills add prismy-io/prismy-agent-skill --skill prismy-translate
-npx skills add prismy-io/prismy-agent-skill --skill prismy-respect-copywriting-guidelines
-npx skills add prismy-io/prismy-agent-skill --skill prismy-detect-hardcoded
-npx skills add prismy-io/prismy-agent-skill --skill prismy-enforcing-source-language-only
+npx skills add prismy-io/prismy-agent-skill --skill i18n-translate
+npx skills add prismy-io/prismy-agent-skill --skill i18n-respect-copywriting-guidelines
+npx skills add prismy-io/prismy-agent-skill --skill i18n-detect-hardcoded
+npx skills add prismy-io/prismy-agent-skill --skill i18n-enforcing-source-language-only
 
 # Common combination: translation workflow + copywriting + source-only guard
 npx skills add prismy-io/prismy-agent-skill \
-  --skill prismy-translate \
-  --skill prismy-respect-copywriting-guidelines \
-  --skill prismy-enforcing-source-language-only
+  --skill i18n-translate \
+  --skill i18n-respect-copywriting-guidelines \
+  --skill i18n-enforcing-source-language-only
 ```
 
 ## Prerequisites

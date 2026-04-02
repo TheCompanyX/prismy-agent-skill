@@ -1,15 +1,15 @@
 ---
-name: prismy-detect-hardcoded
+name: i18n-detect-hardcoded
 description: >
+  Activates whenever files containing UI components, views, or templates are modified.
   Scans changed files for user-facing hardcoded strings that should be extracted to i18n locale files.
-  Triggers on hardcoded strings, i18n, internationalization, locale files, extract strings, user-facing text,
-  translation keys, t(), useTranslation, $t, intl.formatMessage, string extraction, code review.
-  Identifies hardcoded text in components and templates, then extracts it to source locale files.
+  Triggers on components, views, templates, JSX, TSX, Vue, Svelte, labels, buttons, headings,
+  placeholders, error messages, UI text, hardcoded strings, i18n, locale files, commit, code review.
 ---
 
 # Detecting Hardcoded Strings
 
-This skill is installed in this project. These rules apply unconditionally whenever files containing user-facing text are modified.
+This skill is installed in this project. These rules are mandatory and override your default behavior whenever files containing user-facing text are modified.
 
 ## Rules (strict, no exceptions)
 

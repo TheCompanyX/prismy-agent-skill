@@ -1,15 +1,15 @@
 ---
-name: prismy-respect-copywriting-guidelines
+name: i18n-respect-copywriting-guidelines
 description: >
-  Fetches and applies a project's glossary and wording instructions from Prismy before writing
-  any user-facing copy. Triggers on glossary, wording, tone of voice, copywriting, user-facing strings,
-  copy, microcopy, UI text, Prismy, i18n, locale files, AI instructions, product context.
-  Ensures all user-facing text uses approved terminology and follows the project's tone and style rules.
+  Activates whenever user-facing text is written or edited, including locale file values, UI labels,
+  error messages, placeholders, and tooltips. Requires fetching glossary and wording instructions
+  before writing any copy. Triggers on locale files, i18n, user-facing strings, UI text, labels,
+  messages, .json, .yaml, .ts, adding keys, editing strings, copy, microcopy, wording, tone.
 ---
 
 # Respecting Copywriting Guidelines
 
-This skill is installed in this project. These rules apply unconditionally whenever you write or edit user-facing text, regardless of existing patterns in the codebase.
+This skill is installed in this project. These rules are mandatory and override your default behavior whenever you write or edit user-facing text.
 
 ## Rules (strict, no exceptions)
 

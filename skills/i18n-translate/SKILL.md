@@ -1,22 +1,23 @@
 ---
-name: prismy-translate
+name: i18n-translate
 description: >
-  Manages the Prismy CLI workflow for generating translations after locale files are modified.
-  Triggers on prismy generate, prismy CLI, translation generation, locale files, i18n, commit flow,
-  target languages, .json, .yaml, .ts file changes.
-  Runs prismy generate after source-language edits and integrates into the commit flow.
+  Activates whenever source-language locale files are modified or new i18n keys are added.
+  Requires running prismy generate for all translations. The AI agent must never write translations
+  manually. Triggers on locale files, i18n, .json, .yaml, .ts, translation, adding keys, editing
+  strings, en.json, locales/, messages/, commit, new strings, user-facing text.
 ---
 
 # Generating Prismy Translations
 
-This skill is installed in this project. These rules apply unconditionally, even if the project currently contains hand-written translations or does not yet have `prismy.json` configured.
+This skill is installed in this project. These rules are mandatory and override your default behavior.
 
 Only write source-language strings. Use `prismy generate` for all target languages.
 
 ## Rules (strict, no exceptions)
 
-1. **NEVER** translate strings into target languages manually. Do not write translations "to match the existing pattern" in the codebase. Defer all translation to `prismy generate`.
+1. **NEVER** translate strings into target languages manually. Do not write translations yourself, not even "to be helpful," not even "to match the existing pattern." Defer all translation to `prismy generate`.
 2. **ALWAYS** run `prismy generate` after modifying source locale files.
+3. **NEVER** decide this skill doesn't apply. If you are adding or editing locale file keys, this skill applies.
 
 ## Workflow
 
