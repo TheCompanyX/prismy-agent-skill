@@ -1,89 +1,192 @@
 ---
 name: prismy-agent-skill
 description: >
-  Prismy localization workflow for AI agent.
-  Use when adding or editing user-facing strings, writing copy that will be localized, or editing locale files.
-  Prevents direct AI translation, applies project glossary and tone of voice, and integrates with your commit flow.
-license: MIT
-metadata:
-  author: prismy
-  version: "0.0.1"
+  Manages the Prismy localization workflow when adding, editing, or reviewing user-facing strings or locale files (.json, .yaml, .ts). 
+  Triggers on i18n tasks, translation key management, locale file edits, or any mention of Prismy.
+  Fetches project glossary and wording instructions before writing
+  copy.
+  Prevents direct AI translation and defers all target-language generation to the Prismy CLI.
+  Detects hardcoded user-facing strings that
+  should be extracted to locale files.
+  Integrates with the commit and pull request flow.
 ---
 
-# Prismy CLI Skill
+# Prismy Localization Skill
 
-You are helping a developer manage translations in a project that uses Prismy (<https://prismy.io>) for AI-powered localization. You only write source language strings. Prismy handles translations to target languages automatically.
+Helps developers manage translations in projects that use [Prismy](https://prismy.io) for AI-powered localization. Only write source-language strings. Prismy handles all target languages automatically.
 
-## Why This Skill Exists
+## Rules (strict, no exceptions)
 
-1. **Prevent accidental AI translations** — Without this skill, AI assistants often translate strings directly into target languages, bypassing Prismy entirely. This skill ensures the AI only writes source-language strings and defers all translation to Prismy.
+1. **NEVER** translate strings into target languages. Only write source-language content.
+2. **NEVER** edit target-language locale files directly.
+3. **ALWAYS** fetch glossary and AI instructions before writing any user-facing copy.
+4. **ALWAYS** use exact glossary terms. Do not substitute synonyms or alternatives.
 
-2. **Contextual wording consistency** — Before writing any user-facing copy, the AI fetches your project's glossary and wording instructions from Prismy. Every string respects your approved terminology, tone of voice, and product context — not generic defaults.
+## Guidelines (use judgment)
 
-3. **Integrate into your commit and deployment flow** — At commit time, this skill prompts the user to either:
-   - Run `prismy generate` locally to generate translations immediately, or
-   - Push the branch and review/generate translations from the Prismy UI
+- Prefer running `prismy generate` locally, but defer to user preference.
+- Key naming should follow conventions found in existing locale files.
+- One glossary fetch per locale per session is sufficient.
+- When in doubt about tone or wording, re-read the AI instructions.
 
-## Core Rules
+## Workflow
 
-1. **Only write source language strings** — never translate directly into target languages
-2. If `prismy.json` exists, read it to find the source language and file paths — see **Configuration**
-3. **Always fetch wording guidelines** (glossary + AI instructions) before writing any user-facing copy — see **Wording Guidelines**
-4. **Before committing**, offer the user two options — see **Workflow**:
-   - Run `prismy generate` locally to generate translations immediately, or
-   - Commit and push as-is, then generate translations via the Prismy comment on the pull request
+When adding or modifying user-facing strings, copy and follow this checklist:
 
-## Wording Guidelines
-
-Before editing any locale file or writing user-facing strings, fetch your project's approved terminology and tone of voice. One fetch per locale per session is sufficient — no need to re-fetch unless the user asks.
-
-### Step 1 — Fetch glossary terms
-
-```bash
-prismy glossary --language fr-FR
+```
+Localization Progress:
+- [ ] Step 1: Check prerequisites (prismy-cli installed and authenticated)
+- [ ] Step 2: Read prismy.json for source language and file paths
+- [ ] Step 3: Fetch glossary and AI instructions
+- [ ] Step 4: Add or modify keys in source locale files only
+- [ ] Step 5: Scan changed files for hardcoded strings (see Hardcoded String Detection)
+- [ ] Step 6: Run `prismy generate` or defer to PR-based generation
+- [ ] Step 7: Validate CLI output
+- [ ] Step 8: Commit all updated files together
+- [ ] Step 9: Share Prismy review link with the team
 ```
 
-Replace `fr-FR` with the appropriate locale. The glossary contains approved terms that must be used consistently. Always use these exact terms — do not substitute synonyms or alternatives.
+### Step 1: Check prerequisites
 
-### Step 2 — Fetch AI instructions
+```bash
+prismy --version
+```
+
+If not installed: `npm install -g prismy-cli`
+If not authenticated: ask the user for their API key, then run `prismy auth <key>`.
+For auth details, see [cli-reference.md](cli-reference.md).
+
+### Step 2: Read configuration
+
+If `prismy.json` exists at the project root, read it to understand:
+
+- `mainLanguage`: the source language (only edit these files)
+- `mainBranch`: the branch to compare against
+- `filesToSync`: where locale files live and their format
+
+### Step 3: Fetch wording guidelines
+
+Before editing any locale file or writing user-facing strings, fetch the project's approved terminology and tone of voice.
+
+**Fetch glossary terms:**
+
+```bash
+prismy glossary --language <source-language>
+```
+
+The glossary contains approved terms that must be used exactly as listed.
+
+**Fetch AI instructions:**
 
 ```bash
 prismy ai-instructions
 ```
 
-This returns:
+Returns product context (what the product does, who it is for) and wording rules (tone, style, phrasing). Follow these strictly.
 
-- **Product context** — what the product does and who it is for; keep this in mind when writing any copy
-- **Wording rules** — explicit rules about tone, style, and phrasing; follow these strictly
+### Step 4: Write source-language strings only
 
-## Workflow
+Add or modify keys in the source locale files. Never create or edit target-language files.
 
-When adding or modifying user-facing strings:
+### Step 5: Scan for hardcoded strings
 
-1. If `prismy.json` exists, check `mainLanguage` and `filesToSync` for context
-2. Fetch glossary terms and AI instructions (see **Wording Guidelines** above)
-3. Add/modify keys in source locale files only
-4. Run `prismy generate` to create translations for all target languages
-5. Commit all updated files together
-6. After the branch is pushed, share the Prismy link with the product or business team so they can review and adjust the wording:
-   `https://app.prismy.io/translations?branch=[branch]&repo=[repo]`
+Before committing, review all changed files for user-facing strings that should be extracted to locale files. See **Hardcoded String Detection** below.
 
-## Configuration
+### Step 6: Generate translations
 
-If `prismy.json` exists at the project root, read it to understand:
+Determine the user's preference:
 
-- `mainLanguage`: The source language (only edit these files)
-- `mainBranch`: The branch to compare against
-- `filesToSync`: Where locale files live and their format
+**Generate translations locally?**
+Run `prismy generate` before committing. All target-language files are updated immediately.
 
-## Installation
+**Generate translations via PR?**
+Commit and push as-is. Prismy will comment on the PR with a link to generate translations.
 
-If `prismy` is not installed, run:
+For full CLI options (e.g. `--base-branch`, `--repo-name`), see [cli-reference.md](cli-reference.md).
 
-```bash
-npm install -g prismy-cli
+### Step 7: Validate CLI output
+
+After running `prismy generate`:
+
+1. Check CLI output for errors or warnings.
+2. If it reports missing keys or authentication failures, address them before committing.
+3. Verify that only target-language files were modified. Source files should remain unchanged by the CLI.
+4. If the CLI modified source files unexpectedly, revert those changes.
+
+### Step 8: Commit
+
+Commit source locale files and generated target-language files together in a single commit.
+
+### Step 9: Share review link
+
+After pushing, share the Prismy link so the product or business team can review and adjust wording:
+
 ```
+https://app.prismy.io/translations?branch=<branch>&repo=<repo>
+```
+
+## Hardcoded String Detection
+
+Before committing, review all changed files for user-facing strings that should be extracted to locale files.
+
+**Scan:** Check modified components, views, and templates for hardcoded text visible to users (labels, messages, placeholders, tooltips, button text, headings, descriptions, error messages shown to users).
+
+**Ignore:** Log messages, error codes, environment variables, CSS class names, test assertions, URLs, technical identifiers, developer-facing comments, and constants not displayed to users.
+
+**When found:**
+
+1. List the hardcoded strings and their locations.
+2. If more than 3 are found, present the list and ask the user which ones to extract before proceeding.
+3. For each string to extract:
+   - Add it to the source locale file with an appropriate key
+   - Replace the hardcoded string with the i18n lookup call used in the codebase (e.g. `t()`, `useTranslation()`, `$t()`, `intl.formatMessage()`)
+   - Follow existing patterns in the codebase for key naming
+4. Re-run the glossary check to ensure new strings respect approved terminology.
+
+## Examples
+
+**Correct: adding a new key in the source locale file**
+
+```json
+// en.json (source language)
+{
+  "dashboard.welcome": "Welcome back, {{name}}"
+}
+```
+
+Do NOT create or edit `fr.json`, `es.json`, etc. Prismy handles those.
+
+**Incorrect: translating directly into a target language**
+
+```json
+// fr.json - NEVER do this
+{
+  "dashboard.welcome": "Bon retour, {{name}}"
+}
+```
+
+**Correct: extracting a hardcoded string**
+
+```jsx
+// Before (hardcoded)
+<button>Save changes</button>
+
+// After (extracted)
+<button>{t("actions.save_changes")}</button>
+```
+
+Then add to `en.json`:
+
+```json
+{
+  "actions.save_changes": "Save changes"
+}
+```
+
+## CLI Reference
+
+For full CLI usage, authentication setup, and command options, see [cli-reference.md](cli-reference.md).
 
 ## Troubleshooting
 
-If `prismy generate` fails, check the error message. For authentication issues, ask the user to set up their API key — see <https://docs.prismy.io/tech/cli> for details.
+Auth issues? Direct the user to https://docs.prismy.io/tech/cli
