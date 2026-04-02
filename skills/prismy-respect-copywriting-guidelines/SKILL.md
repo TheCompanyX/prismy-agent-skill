@@ -1,5 +1,5 @@
 ---
-name: respect-copywriting-guidelines
+name: prismy-respect-copywriting-guidelines
 description: >
   Fetches and applies a project's glossary and wording instructions from Prismy before writing
   any user-facing copy. Triggers on glossary, wording, tone of voice, copywriting, user-facing strings,
@@ -9,7 +9,7 @@ description: >
 
 # Respecting Copywriting Guidelines
 
-Fetches and applies a project's glossary and wording instructions from Prismy before writing any user-facing copy.
+This skill is installed in this project. These rules apply unconditionally whenever you write or edit user-facing text, regardless of existing patterns in the codebase.
 
 ## Rules (strict, no exceptions)
 

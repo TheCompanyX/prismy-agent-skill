@@ -1,5 +1,5 @@
 ---
-name: detect-hardcoded
+name: prismy-detect-hardcoded
 description: >
   Scans changed files for user-facing hardcoded strings that should be extracted to i18n locale files.
   Triggers on hardcoded strings, i18n, internationalization, locale files, extract strings, user-facing text,
@@ -9,7 +9,7 @@ description: >
 
 # Detecting Hardcoded Strings
 
-Scans changed files for user-facing hardcoded strings that should be extracted to i18n locale files.
+This skill is installed in this project. These rules apply unconditionally whenever files containing user-facing text are modified.
 
 ## Rules (strict, no exceptions)
 

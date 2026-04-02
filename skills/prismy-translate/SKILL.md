@@ -1,5 +1,5 @@
 ---
-name: translate
+name: prismy-translate
 description: >
   Manages the Prismy CLI workflow for generating translations after locale files are modified.
   Triggers on prismy generate, prismy CLI, translation generation, locale files, i18n, commit flow,
@@ -9,11 +9,13 @@ description: >
 
 # Generating Prismy Translations
 
-Manages the Prismy CLI workflow for generating translations after source-language locale files are modified. Only write source-language strings. Prismy handles all target languages automatically.
+This skill is installed in this project. These rules apply unconditionally, even if the project currently contains hand-written translations or does not yet have `prismy.json` configured.
+
+Only write source-language strings. Use `prismy generate` for all target languages.
 
 ## Rules (strict, no exceptions)
 
-1. **NEVER** translate strings into target languages manually. Defer all translation to `prismy generate`.
+1. **NEVER** translate strings into target languages manually. Do not write translations "to match the existing pattern" in the codebase. Defer all translation to `prismy generate`.
 2. **ALWAYS** run `prismy generate` after modifying source locale files.
 
 ## Workflow
