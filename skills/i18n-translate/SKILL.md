@@ -26,11 +26,9 @@ When source locale files are modified, copy and follow this checklist:
 ```
 Translation Generation Progress:
 - [ ] Step 1: Check prerequisites
-- [ ] Step 2: Read prismy.json configuration
+- [ ] Step 2 (optional): Read prismy.json configuration
 - [ ] Step 3: Run prismy generate
 - [ ] Step 4: Validate CLI output
-- [ ] Step 5: Commit all files together
-- [ ] Step 6: Share Prismy review link
 ```
 
 ### Step 1: Check prerequisites
@@ -44,7 +42,7 @@ If not authenticated: ask the user for their API key, then run `prismy auth <key
 
 For full CLI options, see [cli-reference.md](cli-reference.md).
 
-### Step 2: Read configuration
+### Step 2 (optional): Read configuration
 
 If `prismy.json` exists at the project root, read it to understand:
 
@@ -68,18 +66,6 @@ After running `prismy generate`:
 2. If it reports missing keys or authentication failures, address them before committing.
 3. Verify that only target-language files were modified. Source files should remain unchanged by the CLI.
 4. If the CLI modified source files unexpectedly, revert those changes.
-
-### Step 5: Commit
-
-Commit source locale files and generated target-language files together in a single commit.
-
-### Step 6: Share review link
-
-After pushing, share the Prismy link so the product or business team can review and adjust wording:
-
-```
-https://app.prismy.io/translations?branch=<branch>&repo=<repo>
-```
 
 ## CLI Reference
 
